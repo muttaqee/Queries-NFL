@@ -1,0 +1,42 @@
+SELECT COUNT(*)
+FROM a3
+WHERE (
+    (
+    	(
+        	first_name LIKE "Peyton"
+    		AND last_name LIKE "Manning"
+        ) AND (
+            passing_rushing_fieldgoal LIKE "passing"
+            OR passing_rushing_fieldgoal LIKE "rushing"
+        )
+    ) OR (
+        qb_first_name LIKE "Peyton"
+        AND qb_last_name LIKE "Manning"
+    )
+) AND opposing_team LIKE "Miami";
+2
+SELECT A.opposing_team, A.date
+FROM a3 A
+WHERE A.team_name LIKE "Tennessee"
+AND (
+    (
+        (SELECT COUNT(*) * 3 FROM a3 B WHERE B.date = A.date AND B.team_name LIKE "Tennessee" AND B.passing_rushing_fieldgoal LIKE "fieldgoal")+(SELECT COUNT(*) * 7 FROM a3 C WHERE C.date = A.date AND C.team_name LIKE "Tennessee" AND (C.passing_rushing_fieldgoal LIKE "passing" OR C.passing_rushing_fieldgoal LIKE "rushing"))
+    ) > (
+        (SELECT COUNT(*) * 3 FROM a3 D WHERE D.date = A.date AND D.opposing_team LIKE "Tennessee" AND D.passing_rushing_fieldgoal LIKE "fieldgoal")+(SELECT COUNT(*) * 7 FROM a3 E WHERE E.date = A.date AND E.opposing_team LIKE "Tennessee" AND (E.passing_rushing_fieldgoal LIKE "passing" OR E.passing_rushing_fieldgoal LIKE "rushing"))
+    )
+)
+GROUP BY A.date;
+Miami 2015-09-06
+Chicago 2015-09-13
+Denver 2015-09-20
+Seattle 2015-10-11
+Dallas 2015-10-18
+SanFrancisco 2015-11-22
+Seattle 2015-11-29
+SELECT COUNT(*)
+FROM a3
+WHERE first_name LIKE "Reggie"
+AND last_name LIKE "Bush"
+AND passing_rushing_fieldgoal LIKE "rushing"
+AND date LIKE "____-10-__";
+3
